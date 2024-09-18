@@ -3,7 +3,9 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
+import org.example.model.DNI;
 import org.example.model.Menu;
 import org.example.model.Order;
 import org.example.model.Table;
@@ -19,6 +21,8 @@ public class App
         sandboxCreateObjects();
         //o1.calculateIVA();
         System.out.println("\nFinish");
+
+        prueba();
     }
 
     public static void sandboxCreateObjects (){
@@ -61,4 +65,25 @@ public class App
 
 
     }
+
+    public static void prueba(){
+        Table t = new Table("Table1", "This is table number 1",4,false);
+        HashMap<DNI, Table> tables = new HashMap<>();
+
+        DNI dni1 = new DNI(1234,'A'); // A
+        DNI dni2 = new DNI(4321,'Z'); // A
+
+        tables.put(dni1,t);
+        tables.put(dni2,t);
+
+        for(Map.Entry<DNI,Table> entry:tables.entrySet()){
+
+            System.out.println("DNI: " + entry.getKey() + ", Table: " + entry.getValue());
+        }
+
+    }
+
+
+
+
 }
