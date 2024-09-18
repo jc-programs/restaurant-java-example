@@ -1,13 +1,13 @@
 package org.example;
 
-import org.example.model.Menu;
-import org.example.model.Order;
-import org.example.model.Table;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.example.model.Menu;
+import org.example.model.Order;
+import org.example.model.Table;
+import org.example.util.Utilities;
 
 public class App 
 {
@@ -41,7 +41,7 @@ public class App
         m.add(m1);
         m.add(m1);
         m.add(m2);
-        m.add(m3);;
+        m.add(m3);
 
 
         Order o1 = new Order(new Date(), "Jazz", 20, 0.0, false, t1, null);
@@ -50,6 +50,15 @@ public class App
         System.out.println("Total to pay:"+ o1.calculateTotalPayment());
         System.out.println(o1);
 
-        System.out.println("");
+        System.out.println();
+
+        HashMap<String,Table> tables = new HashMap<>();
+        Utilities.createHashmapTables(tables);
+        tables.get("Table-2").setBusy(true);
+        tables.get("Table-4").setBusy(true);
+        Utilities.printStatusTables(tables,true);
+        Utilities.printStatusTables(tables,false);
+
+
     }
 }
