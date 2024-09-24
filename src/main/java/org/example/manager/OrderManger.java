@@ -2,8 +2,10 @@ package org.example.manager;
 
 import org.example.model.Menu;
 import org.example.model.Order;
+import org.example.model.Table;
 import org.example.repository.RestaurantDB;
 import org.example.utils.Utilities;
+import org.example.view.TableDisplay;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,6 +53,9 @@ public class OrderManger {
 
     }
 
+
+
+
     public static boolean createOrder(Scanner scanner, RestaurantDB r1){
 
         // create object
@@ -67,28 +72,13 @@ public class OrderManger {
         // people qty
         int qtyInt = Utilities.askInt(scanner, "People qty? ");
 
-        Utilities.printTables(r1);
-        String tableSelection = Utilities.ask(scanner, "Table? ");
+        // table selection
+        // null => take away
+        Table emptyTableSelected = EmptyTableSelectionManager.selectEmptyTable(scanner,r1);
+        order1.setTable(emptyTableSelected);
 
-        if (tableSelection.equals("0")) order1.setTable(null);
-        else
-            order1.setTable(r1.getTables().get(tableSelection));
-
-
-        // create menus
-        ArrayList<Menu> menus = new ArrayList<>();
-        while(true) {
-
-            Utilities.printMenus(r1,true);
-            String option = Utilities.ask(scanner, "Menu? ");
-            if (option.equals("0")){ break; }
-            else {
-                menus.add(r1.getMenus().get(option));
-            }
-
-        }
-
-        // check if menus is empty && repeat until is not empty
+        // menus selection
+        ArrayList<Menu> menus = MenuSelectionManager.selectMenus(scanner,r1);
         order1.setMenus(menus);
 
 
@@ -111,9 +101,9 @@ public class OrderManger {
 
         boolean ok = orderCheck.equals(order1);
 
-        if (ok && !tableSelection.equals("0")){
+        if (ok && emptyTableSelected != null){
             // if all was ok and is not a takeaway
-            order1.getTable().setBusy(true);
+            emptyTableSelected.setBusy(true);
         }
 
         return ok;
